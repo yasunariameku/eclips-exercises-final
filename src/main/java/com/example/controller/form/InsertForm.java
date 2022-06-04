@@ -2,18 +2,18 @@ package com.example.controller.form;
 
 public class InsertForm {
 	
-	private Integer prosuct_id;
+	private Integer product_id;
 	private String name;
 	private Integer price;
 	private Integer category_id;
 	private String description;
 	
 	
-	public Integer getProsuct_id() {
-		return prosuct_id;
+	public Integer getProduct_id() {
+		return product_id;
 	}
-	public void setProsuct_id(Integer prosuct_id) {
-		this.prosuct_id = prosuct_id;
+	public void setProduct_id(Integer prosuct_id) {
+		this.product_id = prosuct_id;
 	}
 	public String getName() {
 		return name;

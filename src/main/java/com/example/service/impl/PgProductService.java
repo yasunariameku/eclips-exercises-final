@@ -28,7 +28,28 @@ public class PgProductService implements ProductService {
 	}
 	
 	@Override
+	public Product findById(Integer id){
+		
+		return productDao.findById(id);
+	}
+	
+	@Override
 	public String register(Product p){
 		return productDao.register(p);
+	}
+	
+	@Override
+	public String delete(Integer i){
+		return productDao.delete(i);
+	}
+	
+	@Override
+	public Product check(Integer id, Integer product_id){
+		return productDao.check(id, product_id);
+	}
+	
+	@Override
+	public String update(){
+		return productDao.update();
 	}
 }

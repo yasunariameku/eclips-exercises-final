@@ -31,7 +31,7 @@
     <c:if test="${not empty msg}"><p class="error">${msg}</p></c:if>
     
     <!-- 検索機能 -->
-    <form action="/menu" method="post" class="search_container">
+    <form action="/search" method="get" class="search_container">
       <input name="search" type="text" size="25" value="" placeholder="キーワード検索" />
       <button type="submit">検索</button> 
     </form>
@@ -68,13 +68,13 @@
             <td><c:out value="${result.getName()}"/></td>
             <td><c:out value="${result.getPrice()}"/></td>
             <td><c:out value="${result.getCategory()}"/></td>
-            <td><a class="detail_btn" href="DitailServlet?id=${result.id}">詳細</a></td>
+            <td><a class="detail_btn" href="detail?id=${result.getId()}">詳細</a></td>
           </tr>
 		</c:forEach>
       </tbody>
     </table>
   </div>
-  <footer></footer>
+  <footer></footer>  
 
   <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
   <script>

@@ -18,28 +18,26 @@ public class PgProductDao implements ProductDao {
 	private NamedParameterJdbcTemplate jdbcTemplate;
 	
 	
-//	@Autowired
-//	private Product product;
-	
 	
 	//SQL文
 	private static final String SQL_SELECT_ALL = "SELECT p.id,p.product_id, p.name, p.price, c.name AS category, p.description FROM products p INNER JOIN categories c ON p.category_id = c.id ORDER BY p.product_id";
-	
 	private static final String SQL_SELECT = "SELECT p.id, p.product_id, p.name, p.price, c.name AS category, p.description FROM products p INNER JOIN categories c ON p.category_id = c.id WHERE ";
+	private static final String SQL_SELECT_ID ="SELECT p.id,p.product_id, p.name, p.price, c.name AS category, p.description FROM products p INNER JOIN categories c ON p.category_id = c.id WHERE p.id = :id ORDER BY p.product_id";
 	private static final String ORDER = "ORDER BY p.product_id;";
-	
     private static final String INSERT = "INSERT INTO products (product_id, category_id, name, price, description) VALUES (:product_id, :category_id, :name, :price, :description);";
+    private static final String DELETE = "DELETE FROM products WHERE id = :id";
     
-    private static final String SQL = "SELECT product_id FROM products WHERE product_id = ?" ;
 	
 	List<Product> list = null;
 	
+	//全件検索
 	public List<Product> findAll(){
 		String sql = SQL_SELECT_ALL;
 		
 		return jdbcTemplate.query(sql,new BeanPropertyRowMapper<Product>(Product.class));
 	}
 	
+	//部分一致検索
 	public List<Product> find(String searchWord) {
 		
     	String WHERE = ("(p.name || c.name LIKE '%' || :searchWord || '%')");
@@ -52,6 +50,20 @@ public class PgProductDao implements ProductDao {
 		
 	}
 	
+	
+	public Product findById(Integer id){
+		String sql = SQL_SELECT_ID;
+		MapSqlParameterSource param = new MapSqlParameterSource();
+    	param.addValue("id", id);
+    	
+    	list = jdbcTemplate.query(sql, param,new BeanPropertyRowMapper<Product>(Product.class));
+        return list.isEmpty() ? null : list.get(0);
+	}
+	
+	
+	
+	
+	//登録
 	public String register(Product p){
 		
         MapSqlParameterSource param = new MapSqlParameterSource();
@@ -63,9 +75,43 @@ public class PgProductDao implements ProductDao {
     	
     	jdbcTemplate.update(INSERT,param);
     	
-    	return "更新に成功しました。";
+    	return "登録に成功しました。";
     	
 	}
+	
+	//削除
+	public String delete(Integer i) {
+		System.out.println("これはDaoの値" + i + "です");
+        MapSqlParameterSource param = new MapSqlParameterSource();
+    	param.addValue("id", i);
+
+    	jdbcTemplate.update(DELETE,param);
+    	
+ 
+    	return "削除に成功しました";
+	}
+	
+	//更新前に商品IDが重複していないか調べるメソッド
+	public Product check(Integer id, Integer product_id) {
+		
+		String sql = "SELECT * FROM products WHERE id !=:id AND product_id = :product_id;";
+		MapSqlParameterSource param = new MapSqlParameterSource();
+    	param.addValue("id", id);
+    	param.addValue("product_id", product_id);
+    	
+    	list = jdbcTemplate.query(sql, param,new BeanPropertyRowMapper<Product>(Product.class));
+        return list.isEmpty() ? null : list.get(0);
+		
+	}
+	
+	//更新
+	public String update() {
+		
+		
+		return "更新しました。";
+	}
+	
+	
 	
 	
 	

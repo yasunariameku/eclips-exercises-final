@@ -35,12 +35,23 @@ public class IndexController {
 	
 	List<Product> list = null;
 	
+	Product product = null;
+	
 	//ログインページに遷移
 	@RequestMapping("/index")
 	public String indexPage(@ModelAttribute("login") Form form, Model model) {
 		return "index";
 	}
 	
+	@RequestMapping("/menu")
+	public String menuPage(Model model) {
+		List<Product> product = productService.findAll();
+		model.addAttribute("result", product);
+		model.addAttribute(model);
+		return "menu";
+	}
+	
+	//新規登録に遷移
 	@RequestMapping("/insert")
 	public String insertPage(@ModelAttribute("insert") InsertForm form, Model model) {
 		User user = (User) session.getAttribute("user");
@@ -48,12 +59,21 @@ public class IndexController {
 		return "insert";
 	}
 	
-	//新規登録に遷移
-//	@RequestMapping("/insert")
-//	public String insert(@ModelAttribute("insert") InsertForm form, Model model) {
-//		System.out.println("aaaa");
-//		return "insert";
-//	}
+	//詳細画面に遷移する。
+	@RequestMapping("/detail")
+	public String detailPage(@RequestParam("id")Integer id, @ModelAttribute("detail") Product form, Model model) {
+		product = productService.findById(id);
+		model.addAttribute("result", product);
+		return "detail";
+	}
+	
+	//更新画面に遷移
+	@RequestMapping("/update")
+	public String updatePage(@RequestParam("id")Integer id,@ModelAttribute("detail") Product form,Model model) {
+		product = productService.findById(id);
+		model.addAttribute("result", product);
+		return "updateInput";
+	}
 	
 	//ログイン機能
 	@RequestMapping(value = "/login", method = RequestMethod.POST )
@@ -94,7 +114,7 @@ public class IndexController {
 	}
 	
 	//検索
-	@RequestMapping(value = "/menu", method = RequestMethod.POST)
+	@RequestMapping(value = "/search", method = RequestMethod.GET)
 	public String search(@RequestParam("search") String search, Model model) {
 				
 		
@@ -162,7 +182,7 @@ public class IndexController {
 	@RequestMapping(value = "/insert", method = RequestMethod.POST)
 	public String insert(@ModelAttribute("insert") InsertForm Insert, Model model) {
 		
-		Integer product_id = Insert.getProsuct_id(); //null値はバリデーションにて
+		Integer product_id = Insert.getProduct_id(); //null値はバリデーションにて
 		String name = Insert.getName();  //null値はバリデーションにて
 		Integer price = Insert.getPrice();  //null値はバリデーションにて
 		Integer category_id = Insert.getCategory_id();
@@ -185,8 +205,47 @@ public class IndexController {
 			return "insert";
 		}
 
+	}
+	
+	//削除
+	@RequestMapping(value = "/detail", params = "delete", method = RequestMethod.POST)
+	public String delete(@RequestParam("id")int id,Model model) {
+		System.out.println(id);
+
+		var count=  productService.delete(id);
+		//listの値がちゃんと返ってきたら、メニュー画面に戻る。
+		//listの値が返ってこなかったら、詳細ページにて、削除に失敗しましたとする。
+		System.out.println(count);
+		
+		list = productService.findAll();
+		session.setAttribute("result", list);
+		model.addAttribute("result", list);
+
+		return "menu";
 		
 	}
+	
+	//更新
+	@RequestMapping(value = "/update", params = "update", method = RequestMethod.POST)
+	public String update(@ModelAttribute("update") Product form, Model model) {
+		System.out.println(form.getProduct_id());
+		
+		var product = productService.check(form.getId(),form.getProduct_id());
+
+		var count = productService.update();
+		//listの値がちゃんと返ってきたら、メニュー画面に戻る。
+		//listの値が返ってこなかったら、詳細ページにて、削除に失敗しましたとする。
+		System.out.println(count);
+		
+		list = productService.findAll();
+		session.setAttribute("result", list);
+		model.addAttribute("result", list);
+
+		return "menu";
+		
+	}
+	
+			
 		
 }
 
