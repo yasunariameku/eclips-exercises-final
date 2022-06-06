@@ -85,15 +85,13 @@ public class IndexController {
 	
 	//ログイン機能
 	@RequestMapping(value = "/login", method = RequestMethod.POST )
-	public String login(@Validated @ModelAttribute("login") Form form, @ModelAttribute("search") Form form2, BindingResult bindingResult, Model model) {
-		//System.out.println(bindingResult.getFieldValue("login_id"));
-		//System.out.println(bindingResult.getFieldError("password"));
+	public String login(@Validated @ModelAttribute("login") Form form, BindingResult bindingResult ,@ModelAttribute("search") Form form2, Model model) {
+		
 		if (bindingResult.hasErrors()) {
-			//System.out.println("aaaa");
             return "index";
         }
 		
-		String user_id = form.getLogin_id();
+		String user_id = form.getLoginId();
 		String password = form.getPassword();
 		
 		User user = userService.find(user_id, password);
@@ -188,7 +186,11 @@ public class IndexController {
 //	
 	//新規登録
 	@RequestMapping(value = "/insert", method = RequestMethod.POST)
-	public String insert(@ModelAttribute("insert") InsertForm Insert, Model model) {
+	public String insert(@Validated @ModelAttribute("insert") InsertForm Insert, BindingResult bindingResult, Model model) {
+		
+		if (bindingResult.hasErrors()) {
+            return "insert";
+        }
 		
 		Integer product_id = Insert.getProduct_id(); //null値はバリデーションにて
 		String name = Insert.getName();  //null値はバリデーションにて
@@ -235,7 +237,13 @@ public class IndexController {
 	
 	//更新
 	@RequestMapping(value = "/update", params = "update", method = RequestMethod.POST)
-	public String update(@ModelAttribute("update") Product form, Model model) {
+	public String update(@Validated @ModelAttribute("update") Product form, BindingResult bindingResult, Model model) {
+		
+		if (bindingResult.hasErrors()) {
+			Product product = productService.findById(form.getId());
+			model.addAttribute("result", product);
+            return "updateInput";
+        }
 		
 		var checkProduct = productService.check(form.getId(),form.getProduct_id());
 		

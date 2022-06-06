@@ -1,11 +1,21 @@
 package com.example.entity;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 public class Product {
 	
 	private Integer id;
+	
+	@NotNull
 	private Integer product_id;
+	
 	private Integer category_id;
+	
+	@NotBlank
 	private String name;
+	
+	@NotNull
 	private Integer price;
 	private String description;
 	

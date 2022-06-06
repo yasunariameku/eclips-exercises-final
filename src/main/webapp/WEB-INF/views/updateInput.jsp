@@ -35,17 +35,17 @@
           <div>
             <label>商品ID</label>
             <form:input path="product_id" type="text" name="product_id" value="${result.getProduct_id()}" class="base-text" />
-            <span class="error"><c:if test="${not empty id_msg}"><p class="error">${id_msg}</p></c:if></span>
+            <form:errors path="product_id" cssStyle="color: red"/>            
           </div>
           <div>
             <label>商品名</label>
             <form:input path="name" type="text" name="name" value="${result.getName()}" class="base-text" />
-            <span class="error"><c:if test="${not empty name_msg}"><p class="error">${name_msg}</p></c:if></span>
+            <form:errors path="name" cssStyle="color: red"/>  
           </div>
           <div>
             <label>単価</label>
             <form:input path="price" type="text" name="price" value="${result.getPrice()}" class="base-text" />
-            <span class="error"><c:if test="${not empty price_msg}"><p class="error">${price_msg}</p></c:if></span>
+            <form:errors path="price" cssStyle="color: red"/>
           </div>
           <div>
             <label>カテゴリ</label> <form:select path="category_id" items="${categoryList}" itemValue="id" itemLabel="name"  class="base-text">

@@ -27,20 +27,14 @@
     <form:form action="login" modelAttribute="login">
       <fieldset>
         <div class="cp_iptxt">
-          <form:input path="login_id" class="base_input" type="text" placeholder="ID" />
-          <form:errors path="login_id" cssStyle="color: red"/>
+          <form:input path="loginId" class="base_input" type="text" placeholder="ID" />
+          <form:errors path="loginId" cssStyle="color: red"/>
           <i class="fa fa-user fa-lg fa-fw" aria-hidden="true"></i>
-          <c:if test="${not empty id}">
-		  <p class="error">${id}</p>
-	      </c:if>
         </div>
 
         <div>
           <form:input path="password" class="base_input" type="password" placeholder="PASS" />
           <form:errors path="password" cssStyle="color: red"/>
-          <c:if test="${not empty pass}">
-		  <p class="error">${pass}</p>
-	      </c:if>
         </div>
       </fieldset>
       <form:button class="logout_btn" type="submit">ログイン</form:button>

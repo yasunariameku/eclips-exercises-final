@@ -1,10 +1,19 @@
 package com.example.controller.form;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 public class InsertForm {
 	
+	@NotNull
 	private Integer product_id;
+	
+	@NotBlank
 	private String name;
+	
+	@NotNull
 	private Integer price;
+	
 	private Integer category_id;
 	private String description;
 	

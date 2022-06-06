@@ -41,18 +41,18 @@
         <fieldset class="label-130">
           <div>
             <label class="required">商品ID</label>
-            <form:input path="prosuct_id" type="text" name="productId" class="base-text" />
-            <span class="error"><c:if test="${not empty id_msg}"><p class="error">${id_msg}</p></c:if></span>
+            <form:input path="product_id" type="text" name="productId" class="base-text" />
+            <form:errors path="product_id" cssStyle="color: red"/>
           </div>
           <div>
             <label class="required">商品名</label>
             <form:input path="name" type="text" name="productName" class="base-text" />
-            <span class="error"><c:if test="${not empty id_msg}"><p class="error">${id_msg}</p></c:if></span>
+            <form:errors path="name" cssStyle="color: red"/>
           </div>
           <div>
             <label class="required">単価</label>
             <form:input path="price" type="text" name="price" class="base-text" />
-            <span class="error"><c:if test="${not empty id_msg}"><p class="error">${id_msg}</p></c:if></span>
+            <form:errors path="price" cssStyle="color: red"/>            
           </div>
           <div class="select_block">
             <label class="required">カテゴリ</label>

@@ -2,11 +2,10 @@ package com.example.controller.form;
 
 import javax.validation.constraints.NotBlank;
 
-
 public class Form {
 	
 	@NotBlank
-	private String login_id;
+	private String loginId;
 	
 	@NotBlank
 	private String password;
@@ -20,11 +19,11 @@ public class Form {
 	public void setSearch(String search) {
 		this.search = search;
 	}
-	public String getLogin_id() {
-		return login_id;
+	public String getLoginId() {
+		return loginId;
 	}
-	public void setLogin_id(String login_id) {
-		this.login_id = login_id;
+	public void setLoginId(String loginId) {
+		this.loginId = loginId;
 	}
 	public String getPassword() {
 		return password;
