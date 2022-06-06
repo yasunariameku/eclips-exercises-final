@@ -18,7 +18,7 @@ public interface ProductService {
 	
 	public Product check(Integer id, Integer product_id);
 	
-	public String update();
+	public String update(Product updateProduct);
 	
 	
 }

@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.controller.form.Form;
 import com.example.controller.form.InsertForm;
+import com.example.dao.CategoryDao;
+import com.example.entity.Category;
 import com.example.entity.Product;
 import com.example.entity.User;
 import com.example.service.ProductService;
@@ -29,6 +31,9 @@ public class IndexController {
 	
 	@Autowired
 	private ProductService productService;
+	
+	@Autowired
+	private CategoryDao category;
 	
 	@Autowired
 	HttpSession session; 
@@ -69,9 +74,12 @@ public class IndexController {
 	
 	//更新画面に遷移
 	@RequestMapping("/update")
-	public String updatePage(@RequestParam("id")Integer id,@ModelAttribute("detail") Product form,Model model) {
+	public String updatePage(@RequestParam("id")Integer id,@ModelAttribute("update") Product form,Model model) {
 		product = productService.findById(id);
 		model.addAttribute("result", product);
+		List<Category> CategoryList = category.findAll();
+		model.addAttribute("categoryList",CategoryList );
+		
 		return "updateInput";
 	}
 	
@@ -228,11 +236,28 @@ public class IndexController {
 	//更新
 	@RequestMapping(value = "/update", params = "update", method = RequestMethod.POST)
 	public String update(@ModelAttribute("update") Product form, Model model) {
-		System.out.println(form.getProduct_id());
 		
-		var product = productService.check(form.getId(),form.getProduct_id());
+		var checkProduct = productService.check(form.getId(),form.getProduct_id());
+		
+		if (checkProduct != null) {
+			Product product = productService.findById(form.getId());
+			model.addAttribute("result", product);
+			model.addAttribute("msg", "商品IDは既に使用されています。");
+			return "updateInput";
+		}
+		
+		System.out.println(form.getCategory_id());
+		
+		Product updateProduct = new Product();
+		updateProduct.setId(form.getId());
+		updateProduct.setProduct_id(form.getProduct_id());
+		updateProduct.setName(form.getName());
+		updateProduct.setPrice(form.getPrice());
+		updateProduct.setCategory_id(form.getCategory_id());
+		updateProduct.setDescription(form.getDescription());
 
-		var count = productService.update();
+
+		var count = productService.update(updateProduct);
 		//listの値がちゃんと返ってきたら、メニュー画面に戻る。
 		//listの値が返ってこなかったら、詳細ページにて、削除に失敗しましたとする。
 		System.out.println(count);

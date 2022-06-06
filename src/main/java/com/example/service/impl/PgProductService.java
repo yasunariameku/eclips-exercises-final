@@ -49,7 +49,7 @@ public class PgProductService implements ProductService {
 	}
 	
 	@Override
-	public String update(){
-		return productDao.update();
+	public String update(Product updateProduct){
+		return productDao.update(updateProduct);
 	}
 }

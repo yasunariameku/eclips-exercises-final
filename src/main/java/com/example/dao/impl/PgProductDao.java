@@ -93,7 +93,6 @@ public class PgProductDao implements ProductDao {
 	
 	//更新前に商品IDが重複していないか調べるメソッド
 	public Product check(Integer id, Integer product_id) {
-		
 		String sql = "SELECT * FROM products WHERE id !=:id AND product_id = :product_id;";
 		MapSqlParameterSource param = new MapSqlParameterSource();
     	param.addValue("id", id);
@@ -105,14 +104,19 @@ public class PgProductDao implements ProductDao {
 	}
 	
 	//更新
-	public String update() {
-		
+	public String update(Product updateProduct) {
+		String sql = "UPDATE products SET product_id = :product_id, category_id = :category_id, name = :name, price = :price WHERE id = :id ";
+		MapSqlParameterSource param = new MapSqlParameterSource();
+
+    	param.addValue("product_id", updateProduct.getProduct_id());
+    	param.addValue("category_id", updateProduct.getCategory_id());
+    	param.addValue("name", updateProduct.getName());
+    	param.addValue("price", updateProduct.getPrice());
+    	param.addValue("id", updateProduct.getId());
+    	
+		System.out.println(jdbcTemplate.update(sql,param));
 		
 		return "更新しました。";
 	}
-	
-	
-	
-	
 	
 }

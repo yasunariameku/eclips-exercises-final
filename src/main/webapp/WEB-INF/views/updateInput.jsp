@@ -2,6 +2,8 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -32,31 +34,32 @@
         <fieldset class="label-130">
           <div>
             <label>商品ID</label>
-            <form:input type="text" name="productId" value="${result.getProduct_id()}" class="base-text" />
+            <form:input path="product_id" type="text" name="product_id" value="${result.getProduct_id()}" class="base-text" />
             <span class="error"><c:if test="${not empty id_msg}"><p class="error">${id_msg}</p></c:if></span>
           </div>
           <div>
             <label>商品名</label>
-            <form:input type="text" name="productName" value="${result.getName()}" class="base-text" />
+            <form:input path="name" type="text" name="name" value="${result.getName()}" class="base-text" />
             <span class="error"><c:if test="${not empty name_msg}"><p class="error">${name_msg}</p></c:if></span>
           </div>
           <div>
             <label>単価</label>
-            <form:input type="text" name="price" value="${result.getPrice()}" class="base-text" />
+            <form:input path="price" type="text" name="price" value="${result.getPrice()}" class="base-text" />
             <span class="error"><c:if test="${not empty price_msg}"><p class="error">${price_msg}</p></c:if></span>
           </div>
           <div>
-            <label>カテゴリ</label> <form:select name="category" class="base-text">
-              <option value="1">筆記具</option>
+            <label>カテゴリ</label> <form:select path="category_id" items="${categoryList}" itemValue="id" itemLabel="name"  class="base-text">
+            </form:select>
+              <!-- <option value="1">筆記具</option>
               <option value="2">オフィス機器</option>
               <option value="3">事務消耗品</option>
               <option value="4">紙製品</option>
-              <option value="5">雑貨</option>
-            </form:select>
+              <option value="5">雑貨</option> -->
+            
           </div>
           <div>
             <label>商品説明</label>
-            <form:textarea name="description" class="base-text">${result.getDescription()}</form:textarea>
+            <form:textarea path="description" name="description" class="base-text" value="${result.getDescription()}"></form:textarea>
           </div>
           <div>
             <label>画像</label>
